@@ -53,6 +53,27 @@ namespace exhibition.ViewModel
         }
         public Progress_Bar _ProgressBar { get { return progressBar; } set { progressBar = value; OnPropertyChanged(nameof(_ProgressBar)); } }
 
+        RelayCommand addCollumn;
+        public RelayCommand AddCollumn { get { return addCollumn; } }
+
+        RelayCommand removeCollumn;
+        public RelayCommand RemoveCollumn { get { return removeCollumn; } }
+
+        RelayCommand saveColumn;
+        public RelayCommand SeveCollumn { get { return saveColumn; } }
+
+        RelayCommand addSetting;
+        public RelayCommand AddSetting { get { return addSetting; } }
+
+        RelayCommand delSetting;
+        public RelayCommand DelSetting { get { return delSetting; } }
+
+        RelayCommand selectedSettingChanged;
+        public RelayCommand SelectedSettingChanged { get { return selectedSettingChanged; } }
+
+        RelayCommand saveChanges;
+        public RelayCommand SaveChanges { get { return saveChanges; } }
+
         RelayCommand addDataFromFileToDatabase;
         public RelayCommand AddDataFromFileToDatabase { get { return addDataFromFileToDatabase; } }
 
