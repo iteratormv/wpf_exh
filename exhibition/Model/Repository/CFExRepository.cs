@@ -16,10 +16,16 @@ namespace exhibition.Model.Repository
         ExContext context;
         Progress_Bar progress;
 
+        DisplaySetting selectedDisplaySetting;
+        DSCollumnSetting selectedDSCollumnSetting;
         ObservableCollection<Visitor> visitorCollection;
         ObservableCollection<DisplaySetting> displaySettingCollection;
         ObservableCollection<DSCollumnSetting> dsColumnSettingCollection;
 
+        public DisplaySetting SelectedDisplaySetting { get { return selectedDisplaySetting; }set {
+                selectedDisplaySetting = value; OnPropertyChanged(nameof(SelectedDisplaySetting)); } }
+        public DSCollumnSetting SelectedDSCollumnSetting { get { return selectedDSCollumnSetting; } set {
+                selectedDSCollumnSetting = value; OnPropertyChanged(nameof(SelectedDSCollumnSetting)); } }
         public ObservableCollection<Visitor> VisitorCollection
         {
             get { return visitorCollection; }
@@ -74,9 +80,14 @@ namespace exhibition.Model.Repository
                 //add setting to repository
                 foreach (var c in _displaySettingCollection) displaySettingCollection.Add(c);
                 //extract collumns from database which contain parameter Id and add its into the perository
-                var _dsCollumnSettings = context.DSCollumnSettings;
+                selectedDisplaySetting = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
+                var _dsCollumnSettings = context.DSCollumnSettings.Where(s=>s.DisplaySettingId == selectedDisplaySetting.Id);
                 foreach (var c in _dsCollumnSettings) dsColumnSettingCollection.Add(c);
             }
+            var _visitorCollection = context.Visitors;
+            foreach (var c in _visitorCollection) visitorCollection.Add(c);
+            selectedDisplaySetting = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
+            selectedDSCollumnSetting = context.DSCollumnSettings.Where(s => s.IsSelected == true).FirstOrDefault();
 
         }
 
@@ -137,16 +148,103 @@ namespace exhibition.Model.Repository
             return true;
         }
 
-        public bool delDSCollumnSetting(DSCollumnSetting dscs)
+        public bool addDSCollumnSetting()
         {
+
+            bool result = false;
             try
             {
-                context.DSCollumnSettings.Remove(dscs);
+                var dsid = context.DisplaySettings.Where(s => s.IsSelected == true).Select(s => s.Id).FirstOrDefault();
+                string _name = "NewCollumn1";
+                string _alias = "NewAlias1";
+                while (context.DSCollumnSettings.Where(s => s.Name == _name).Select(s => s).Count() > 0)
+                {
+                    string d_name = _name.Trim(new char[] { 'N', 'e', 'w', 'C', 'o', 'l', 'u', 'm', 'n' });
+                    int d = int.Parse(d_name) + 1;
+                    _name = "NewCollumn" + d.ToString();
+                    _alias = "NewAlias" + d.ToString();
+                }
+                SelectedDisplaySetting = DisplaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+                var old_selected_collumn = context.DSCollumnSettings.Where(s => s.IsSelected == true).FirstOrDefault();
+                old_selected_collumn.IsSelected = false;
+                SelectedDSCollumnSetting = new DSCollumnSetting() { DisplaySettingId = dsid, Name = _name, Alias = _alias, Visible = true, IsSelected = true, Width = 100 };
+                context.DSCollumnSettings.Add(SelectedDSCollumnSetting);
                 context.SaveChanges();
-                dsColumnSettingCollection.Remove(dscs);
+                var _colStors = context.DSCollumnSettings.Where(s => s.DisplaySettingId == dsid).Select(s => s).ToList();
+                var _colStor = context.DSCollumnSettings.Where(s => s.Name == _name).Select(s => s).FirstOrDefault();
+                dsColumnSettingCollection.Clear();
+                foreach (var c in _colStors) { dsColumnSettingCollection.Add(c); }
+
+                //string _alias = "NewAlias1";
+                //while (context.DSCollumnSettings.Where(s => s.Alias == _alias).Select(s => s).Count() > 0)
+                //{
+                //    string d_alias = _alias.Trim(new char[] { 'N', 'e', 'w', 'A', 'l', 'i', 'a', 's' });
+                //    int d = int.Parse(d_alias) + 1;
+                //    _alias = "NewAlias" + d.ToString();
+                //}
+                //selectedDSCollumnSetting = new DSCollumnSetting() { DisplaySettingId = _colStor.Id, Alias = _alias, Visible = true, Width = 100 };
+                //context.ColSets.Add(selectedSetting);
+                //context.SaveChanges();
+                //var _colsets = context.DisplaySettings.ToList();
+                //colSets.Clear();
+                //foreach (var c in _colsets) { colSets.Add(c); }
+                result = true;
+
             }
-            catch { return false; }
-            return true;
+
+            catch (Exception e) { Console.WriteLine(e.ToString()); }
+
+            return result;
+
+
+
+            //try
+            //{
+            //    context.DSCollumnSettings.Add(dscs);
+            //    context.SaveChanges();
+            //    var _dsColumnSettingRepository = context.DSCollumnSettings; dsColumnSettingCollection.Clear();
+            //    foreach (var c in _dsColumnSettingRepository) { dsColumnSettingCollection.Add(c); }
+            //}
+            //catch { return false; }
+            //return true;
+        }
+
+        public bool delDSCollumnSetting(DSCollumnSetting dscs)
+        {
+
+
+            bool result = false;
+            try
+            {
+         //       var d_se = context.DSCollumnSettings.Where(s => s.DisplaySettingId == dscs.Id).Select(s => s).FirstOrDefault();
+         //       context.ColSets.Remove(d_se);
+                context.DSCollumnSettings.Remove(dscs);
+                dsColumnSettingCollection.Remove(dscs);
+                context.SaveChanges();
+                SelectedDisplaySetting = displaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+                var _dsColumnSettingCollection = context.DSCollumnSettings.Where(c => c.DisplaySettingId == SelectedDisplaySetting.Id);
+                dsColumnSettingCollection.Clear();
+                foreach(var c in _dsColumnSettingCollection) { dsColumnSettingCollection.Add(c); }
+                SelectedDSCollumnSetting = DsColumnSettingCollection.FirstOrDefault();
+                var new_selected_collumn_setting = context.DSCollumnSettings.Where(c => c.Id == SelectedDSCollumnSetting.Id).FirstOrDefault();
+                new_selected_collumn_setting.IsSelected = true;
+                context.SaveChanges();
+  //             SelectedSetting = colSets.Where(s => s.ColStorId == SelectedCollumn.Id).Select(s => s).FirstOrDefault();
+                result = true;
+            }
+            catch (Exception e) { Console.WriteLine(e.ToString()); }
+            return result;
+
+
+
+            //try
+            //{
+            //    context.DSCollumnSettings.Remove(dscs);
+            //    context.SaveChanges();
+            //    dsColumnSettingCollection.Remove(dscs);
+            //}
+            //catch { return false; }
+            //return true;
         }
 
         public bool addDisplaySetting(DisplaySetting ds)
@@ -162,16 +260,124 @@ namespace exhibition.Model.Repository
             return true;
         }
 
-        public bool delDisplaySetting(DisplaySetting ds)
+        public bool addDisplaySetting()
         {
             try
             {
-                context.DisplaySettings.Remove(ds);
+                var cur_set = context.DisplaySettings.Where(s => s.IsSelected == true).Select(s => s).FirstOrDefault();
+                string new_set_name = "NewSetting1";
+                while (context.DisplaySettings.Where(s => s.Name == new_set_name).Count() > 0)
+                {
+                    string d_name = new_set_name.Trim(new char[] { 'N', 'e', 'w', 'S', 't', 'i', 'n', 'g' });
+                    int d = int.Parse(d_name) + 1;
+                    new_set_name = "NewSetting" + d.ToString();
+                }
+                if (cur_set != null) cur_set.IsSelected = false;
+
+                var n_set = new DisplaySetting() { Name = new_set_name, IsSelected = true };
+                context.DisplaySettings.Add(n_set);
                 context.SaveChanges();
-                displaySettingCollection.Remove(ds);
+                SelectedDisplaySetting = context.DisplaySettings.Where(s => s.IsSelected == true).Select(s => s).FirstOrDefault();
+                var _displaySettingsRepository = context.DisplaySettings; displaySettingCollection.Clear();
+                foreach (var d in _displaySettingsRepository) displaySettingCollection.Add(d);
+                addDSCollumnSetting();
             }
             catch { return false; }
             return true;
+        }
+
+        public bool delDisplaySetting(DisplaySetting ds)
+        {
+            bool result = false;
+            try
+            {
+                DisplaySetting s_ds = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
+                context.DisplaySettings.Remove(ds);
+                var del_cs = context.DSCollumnSettings.Where(s => s.DisplaySettingId == ds.Id);
+                foreach(var c in del_cs) { context.DSCollumnSettings.Remove(c); }
+                context.SaveChanges();
+                if (ds.IsSelected == true)
+                {
+                    s_ds = context.DisplaySettings.FirstOrDefault();
+                    s_ds.IsSelected = true;
+                    context.SaveChanges();
+                }
+                DisplaySettingCollection.Remove(ds);
+                var _colstors = context.DSCollumnSettings.Where(s => s.DisplaySettingId == s_ds.Id).Select(s => s).ToList();
+                DsColumnSettingCollection.Clear();
+                foreach (var c in _colstors) { DsColumnSettingCollection.Add(c); }
+                SelectedDSCollumnSetting = DsColumnSettingCollection.FirstOrDefault();
+                var new_selected_collumn_setting = context.DSCollumnSettings.Where(s => s.Id == SelectedDSCollumnSetting.Id).FirstOrDefault();
+                new_selected_collumn_setting.IsSelected = true;
+                context.SaveChanges();
+                SelectedDisplaySetting = s_ds;
+                result = true;
+            }
+            catch (Exception e) { Console.WriteLine(e.ToString()); }
+            return result;
+
+            //try
+            //{
+            //    context.DisplaySettings.Remove(ds);
+            //    context.SaveChanges();
+            //    displaySettingCollection.Remove(ds);
+            //}
+            //catch { return false; }
+            //return true;
+        }
+
+        public bool changeDisplaySettingDefault(DisplaySetting currentDefaulSetting)
+        {
+            bool result = false;
+
+            try
+            {
+                var old_selected_column_setting = context.DSCollumnSettings.Where(c => c.IsSelected == true).FirstOrDefault();
+                var cur_sete = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
+                cur_sete.IsSelected = false;
+                context.SaveChanges();
+
+                cur_sete = context.DisplaySettings.Where(s => s.Id == currentDefaulSetting.Id).FirstOrDefault();
+                cur_sete.IsSelected = true;
+                context.SaveChanges();
+                
+                old_selected_column_setting.IsSelected = false;
+                context.SaveChanges();
+                SelectedDisplaySetting = cur_sete;
+                var _dsCollumnSettingCollection = context.DSCollumnSettings.Where(s => s.DisplaySettingId == SelectedDisplaySetting.Id);
+                DsColumnSettingCollection.Clear();
+                foreach (var c in _dsCollumnSettingCollection) DsColumnSettingCollection.Add(c);
+                selectedDSCollumnSetting = DsColumnSettingCollection.FirstOrDefault();
+                var new_selected_column_setting = context.DSCollumnSettings.Where(s => s.Id == SelectedDSCollumnSetting.Id).FirstOrDefault();
+                new_selected_column_setting.IsSelected = true;
+                context.SaveChanges();
+            }
+            catch (Exception e) { Console.WriteLine(e.ToString()); }
+
+            return result;
+        }
+
+        public bool saveChanges(DisplaySetting  displaySetting, DSCollumnSetting dSCollumnSetting )
+        {
+            bool result = false;
+            try
+            {
+                selectedDisplaySetting = displaySetting;
+                selectedDSCollumnSetting = dSCollumnSetting;
+                var old_selected_collumn_setting = context.DSCollumnSettings.Where(c => c.IsSelected == true).FirstOrDefault();
+                old_selected_collumn_setting.IsSelected = false;
+                context.SaveChanges();
+                var new_selected_collumn_setting = context.DSCollumnSettings.Where(c => c.Id == selectedDSCollumnSetting.Id).FirstOrDefault();
+                new_selected_collumn_setting.IsSelected = true;
+                context.SaveChanges();
+                var _dsColumnSettingCollection = context.DSCollumnSettings.Where(s => s.DisplaySettingId == selectedDisplaySetting.Id);
+                dsColumnSettingCollection.Clear();
+                foreach (var c in _dsColumnSettingCollection) dsColumnSettingCollection.Add(c);
+                context.SaveChanges();
+                result = true;
+            }
+            catch (Exception e) { Console.WriteLine(e.ToString()); }
+            return result;
         }
 
         public bool addVisitor(Visitor visitor)

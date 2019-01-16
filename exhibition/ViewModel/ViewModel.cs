@@ -16,12 +16,19 @@ namespace exhibition.ViewModel
 {
     class ViewModel : INotifyPropertyChanged
     {
+        const int count_headers = 16;
+
+
         CFExRepository cFExRepository;
         ObservableCollection<Visitor> visitorCollection;
         ObservableCollection<DisplaySetting> displaySettingCollection;
         ObservableCollection<DSCollumnSetting> dsColumnSettingCollection;
 
-        DisplaySetting selectedSetting;
+        bool[] columnChecked;
+        string[] alias;
+        int[] width;
+
+        DisplaySetting selectedDisplaySetting;
         DSCollumnSetting selectedCollumnSetting;
         Progress_Bar progressBar;
 
@@ -41,10 +48,14 @@ namespace exhibition.ViewModel
             set { dsColumnSettingCollection = value; OnPropertyChanged(nameof(DsColumnSettingCollection)); }
         }
 
-        public DisplaySetting SelectedSetting
+        public bool[] ColumnChecked { get { return columnChecked; } set { columnChecked = value; OnPropertyChanged(nameof(ColumnChecked)); } }
+        public string[] Alias { get { return alias; } set { alias = value; OnPropertyChanged(nameof(Alias)); } }
+        public int[] Width { get { return width; } set { width = value; OnPropertyChanged(nameof(Width)); } }
+
+        public DisplaySetting SelectedDisplaySetting
         {
-            get { return selectedSetting; }
-            set { selectedSetting = value; OnPropertyChanged(nameof(SelectedSetting)); }
+            get { return selectedDisplaySetting; }
+            set { selectedDisplaySetting = value; OnPropertyChanged(nameof(SelectedDisplaySetting)); }
         }
         public DSCollumnSetting SelectedCollumnSetting
         {
@@ -68,24 +79,35 @@ namespace exhibition.ViewModel
         RelayCommand delSetting;
         public RelayCommand DelSetting { get { return delSetting; } }
 
-        RelayCommand selectedSettingChanged;
-        public RelayCommand SelectedSettingChanged { get { return selectedSettingChanged; } }
-
         RelayCommand saveChanges;
         public RelayCommand SaveChanges { get { return saveChanges; } }
 
         RelayCommand addDataFromFileToDatabase;
         public RelayCommand AddDataFromFileToDatabase { get { return addDataFromFileToDatabase; } }
 
+        RelayCommand changeDisplaySettingDefault;
+        public RelayCommand ChangeDisplaySettingDefault { get { return changeDisplaySettingDefault; } }
+
         public ViewModel()
         {
+            
+
+            columnChecked = new bool[count_headers];
+            alias = new string[count_headers];
+            width = new int[count_headers];
+
+
             cFExRepository = new CFExRepository();
             cFExRepository.progressChanged += ProgressChanged;
-            visitorCollection = new ObservableCollection<Visitor>();
+            visitorCollection = cFExRepository.VisitorCollection;
             displaySettingCollection = cFExRepository.DisplaySettingCollection;
-            dsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
-            selectedSetting = displaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
-            selectedCollumnSetting = dsColumnSettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+            selectedDisplaySetting = displaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+            var _dsColumnSettingCollection = cFExRepository.DsColumnSettingCollection.Where(s=>s.DisplaySettingId == selectedDisplaySetting.Id);
+            dsColumnSettingCollection = new ObservableCollection<DSCollumnSetting>();
+            foreach(var c in _dsColumnSettingCollection) { dsColumnSettingCollection.Add(c); }
+            SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+
+            initHeader();
 
             addDataFromFileToDatabase = new RelayCommand(c =>
             {
@@ -104,6 +126,57 @@ namespace exhibition.ViewModel
                     });
                 }
             });
+            addSetting = new RelayCommand(c =>
+            {
+                cFExRepository.addDisplaySetting();
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            delSetting = new RelayCommand(c =>
+            {
+                cFExRepository.delDisplaySetting(selectedDisplaySetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            changeDisplaySettingDefault = new RelayCommand(c =>
+            {
+                cFExRepository.changeDisplaySettingDefault(SelectedDisplaySetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            addCollumn = new RelayCommand(c =>
+            {
+                cFExRepository.addDSCollumnSetting();
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            }, c => dsColumnSettingCollection.Count() < 17);
+            saveChanges = new RelayCommand(c =>
+            {
+                cFExRepository.saveChanges(selectedDisplaySetting, selectedCollumnSetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+                initHeader();
+
+            });
+            removeCollumn = new RelayCommand(c =>
+            {
+                cFExRepository.delDSCollumnSetting(selectedCollumnSetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            }, c=> dsColumnSettingCollection.Count() > 2);
+
         }
 
         private void ProgressChanged(Progress_Bar progress)
@@ -111,7 +184,24 @@ namespace exhibition.ViewModel
             _ProgressBar.Progress = progress.Progress;
             _ProgressBar.Status = progress.Status;
             _ProgressBar.Visible = progress.Visible;
-            Thread.Sleep(25);
+//            Thread.Sleep(10);
+        }
+
+        private void initHeader()
+        {
+            var sc = dsColumnSettingCollection.ToArray();
+            //коллекция visible
+            bool[] _columnChecked = new bool[sc.Count()];
+            for (int i = 0; i < sc.Count(); i++) { _columnChecked[i] = dsColumnSettingCollection.Where(s => s.Id == sc[i].Id).Select(s => s.Visible).FirstOrDefault(); }
+            for (int i = 0; i < count_headers; i++) { try { columnChecked[i] = _columnChecked[i]; } catch { columnChecked[i] = false; } }
+            //коллекция алиасов
+            string[] _alias = new string[sc.Count()];
+            for (int i = 0; i < sc.Count(); i++) { _alias[i] = dsColumnSettingCollection.Where(s => s.Id == sc[i].Id).Select(s => s.Alias).FirstOrDefault(); }
+            for (int i = 0; i < count_headers; i++) { try { alias[i] = _alias[i]; } catch { alias[i] = "none"; } }
+            //коллекция width
+            int[] _width = new int[sc.Count()];
+            for (int i = 0; i < sc.Count(); i++) { _width[i] = dsColumnSettingCollection.Where(s => s.Id == sc[i].Id).Select(s => s.Width).FirstOrDefault(); }
+            for (int i = 0; i < count_headers; i++) { try { width[i] = _width[i]; } catch { width[i] = 100; } }
         }
 
         private void OnPropertyChanged(string propertyName)

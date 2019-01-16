@@ -5,17 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:exhibition"
         xmlns:vm="clr-namespace:exhibition.ViewModel"
+        xmlns:vmi="clr-namespace:exhibition.ViewModel.infrostructure"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="Manual" WindowState="Maximized">
 
     <Window.Resources>
         <vm:ViewModel x:Key="view_model"/>
+        <vmi:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
     </Window.Resources>
 
     <Grid>
         <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
-            <TabItem Header="Главная">
+
+            <TabItem Header="Главная" DataContext="{StaticResource view_model}">
                 <Grid Name="ms" Background="#FFE5E5E5" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*"/>
@@ -26,8 +29,147 @@
                         <TextBox Name="tb_code" Visibility="Visible" Text="Введите код" Foreground="Gray" Width="300" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" Padding="10" FontSize="20"/>
                         <TextBox Width="100" TextAlignment="Center" Margin="5" Background="#FFE5E5E5" Foreground="Gray" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="Цвет бейджа"/>
                         <TextBox Width="100" TextAlignment="Center" Margin="5" Background="#FFE5E5E5" Foreground="Gray" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="Статус оплаты"/>
+                        <Button Click="Button_Click" >Обновить данные</Button>
                     </StackPanel>
-                    <DataGrid x:Name="workgrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False">
+                    <DataGrid x:Name="workgrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False" ItemsSource="{Binding  VisitorCollection, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.Resources>
+                            
+                            <vmi:BindingProxy x:Key="ColumnChecked1" Data="{Binding ColumnChecked[0], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked2" Data="{Binding ColumnChecked[1], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked3" Data="{Binding ColumnChecked[2], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked4" Data="{Binding ColumnChecked[3], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked5" Data="{Binding ColumnChecked[4], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked6" Data="{Binding ColumnChecked[5], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked7" Data="{Binding ColumnChecked[6], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked8" Data="{Binding ColumnChecked[7], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked9" Data="{Binding ColumnChecked[8], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked10" Data="{Binding ColumnChecked[9], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked11" Data="{Binding ColumnChecked[10], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked12" Data="{Binding ColumnChecked[11], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked13" Data="{Binding ColumnChecked[12], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked14" Data="{Binding ColumnChecked[13], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked15" Data="{Binding ColumnChecked[14], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="ColumnChecked16" Data="{Binding ColumnChecked[15], UpdateSourceTrigger=PropertyChanged}" />
+
+
+                            <vmi:BindingProxy x:Key="Header1" Data="{Binding Alias[0], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header2" Data="{Binding Alias[1], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header3" Data="{Binding Alias[2], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header4" Data="{Binding Alias[3], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header5" Data="{Binding Alias[4], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header6" Data="{Binding Alias[5], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header7" Data="{Binding Alias[6], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header8" Data="{Binding Alias[7], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header9" Data="{Binding Alias[8], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header10" Data="{Binding Alias[9], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header11" Data="{Binding Alias[10], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header12" Data="{Binding Alias[11], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header13" Data="{Binding Alias[12], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header14" Data="{Binding Alias[13], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header15" Data="{Binding Alias[14], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Header16" Data="{Binding Alias[15], UpdateSourceTrigger=PropertyChanged}" />
+                            
+                            <vmi:BindingProxy x:Key="Width1" Data="{Binding  Width[0], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width2" Data="{Binding  Width[1], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width3" Data="{Binding  Width[2], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width4" Data="{Binding  Width[3], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width5" Data="{Binding  Width[4], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width6" Data="{Binding  Width[5], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width7" Data="{Binding  Width[6], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width8" Data="{Binding  Width[7], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width9" Data="{Binding  Width[8], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width10" Data="{Binding  Width[9], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width11" Data="{Binding  Width[10], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width12" Data="{Binding  Width[11], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width13" Data="{Binding  Width[12], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width14" Data="{Binding  Width[13], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width15" Data="{Binding  Width[14], UpdateSourceTrigger=PropertyChanged}" />
+                            <vmi:BindingProxy x:Key="Width16" Data="{Binding  Width[15], UpdateSourceTrigger=PropertyChanged}" />
+
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header1}}" 
+                                Binding="{Binding Id}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width1}}" 
+                                Visibility="{Binding Data, Converter={StaticResource boolToVisibilityConverter}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header2}}" 
+                                Binding="{Binding Collumn1}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width2}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked2}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header3}}" 
+                                Binding="{Binding Collumn2}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width3}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked3}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header4}}" 
+                                Binding="{Binding Collumn3}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width4}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked4}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header5}}" 
+                                Binding="{Binding Collumn4}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width5}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked5}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header6}}" 
+                                Binding="{Binding Collumn5}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width6}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked6}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header7}}" 
+                                Binding="{Binding Collumn6}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width7}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked7}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header8}}" 
+                                Binding="{Binding Collumn7}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width8}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked8}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header9}}" 
+                                Binding="{Binding Collumn8}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width9}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked9}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header10}}" 
+                                Binding="{Binding Collumn9}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width10}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked10}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header11}}" 
+                                Binding="{Binding Collumn10}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width11}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked11}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header12}}" 
+                                Binding="{Binding Collumn11}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width12}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked12}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header13}}" 
+                                Binding="{Binding Collumn12}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width13}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked13}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header14}}" 
+                                Binding="{Binding Collumn13}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width14}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked14}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header15}}" 
+                                Binding="{Binding Collumn14}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width15}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked15}}"/>
+                            <DataGridTextColumn 
+                                Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header16}}" 
+                                Binding="{Binding Collumn15}" 
+                                Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width16}}" 
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked16}}"/>
+
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
@@ -40,10 +182,10 @@
                     <StackPanel >
                         <Label Margin="10" Content="{Binding _ProgressBar.Status, UpdateSourceTrigger=PropertyChanged}"/>
                         <Button Margin="10" Command="{Binding AddDataFromFileToDatabase, UpdateSourceTrigger=PropertyChanged}" Content="Загрузить данные из файла"/>
-                        <Button Margin="10" Content="Удалить данные файл20,20,20,5а"/>
+                        <Button Margin="10" Content="Удалить данные файл"/>
                         <Button Margin="10" Content="Выгрузить данные в файл Exel"/>
                     </StackPanel>
-                    <DataGrid Grid.Column="1" Margin="10,55,10,10"/>
+                    <DataGrid Grid.Column="1" Margin="10,55,10,10" AutoGenerateColumns="True" ItemsSource="{Binding  VisitorCollection, UpdateSourceTrigger=PropertyChanged}"/>
                     <ProgressBar Grid.Column="1"
                                  HorizontalAlignment="Left" 
                                  Height="30" Margin="10,10,0,0" 
@@ -139,7 +281,8 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Цвет бейджа" />
-                        <TabItem Header="База данных" />
+                        <TabItem Header="База данных" DataContext="{StaticResource view_model}">
+                        </TabItem>
                         <TabItem Header="Рабочий стол">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -220,7 +363,7 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                         <RowDefinition Height="40"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <ListBox Grid.Row="0" ItemsSource="{Binding DsColumnSettingCollection}" SelectedItem="{Binding SelectedCollumnSetting}"  Margin="20,20,20,5" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <ListBox Grid.Row="0" ItemsSource="{Binding DsColumnSettingCollection}" SelectedItem="{Binding SelectedCollumnSetting, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="20,20,20,5" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -231,8 +374,8 @@
                                     </ListBox>
 
                                     <WrapPanel  Grid.Row="1" Orientation="Horizontal" Margin="20,0" HorizontalAlignment="Center" Width="auto">
-                                        <Button Margin="5" Padding="5" >Добавить колонку</Button>
-                                        <Button Margin="5" Padding="5" >Удалить колонку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding AddCollumn}" >Добавить колонку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding RemoveCollumn}" >Удалить колонку</Button>
                                     </WrapPanel>
                                 </Grid>
                                 <Grid  Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch">
@@ -240,12 +383,12 @@
                                         <RowDefinition Height="*" ></RowDefinition>
                                         <RowDefinition Height="40"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <ListBox ItemsSource="{Binding DisplaySettingCollection}" SelectedItem="{Binding SelectedSetting}" Margin="20,20,20,5" Grid.Row="0" >
+                                    <ListBox ItemsSource="{Binding DisplaySettingCollection}" SelectedItem="{Binding  SelectedDisplaySetting, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20,20,20,5" Grid.Row="0" >
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center"  >
                                                     <TextBlock Margin="5" Text="{Binding Name}" />
-                                                    <CheckBox IsChecked="{Binding IsSelected}"   Margin="5" RenderTransformOrigin="0.5,0.5">
+                                                    <CheckBox IsChecked="{Binding IsSelected, Mode=OneWay}"   Margin="5" RenderTransformOrigin="0.5,0.5">
                                                         <CheckBox.RenderTransform>
                                                             <TransformGroup>
                                                                 <ScaleTransform/>
@@ -260,15 +403,15 @@
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                     <WrapPanel Orientation="Horizontal" Margin="20,0" HorizontalAlignment="Center" Grid.Row="1" Width="auto">
-                                        <Button Margin="5" Padding="5" >Добавить настройку</Button>
-                                        <Button Margin="5" Padding="5" >Удалить настройку</Button>
-                                        <Button Margin="5" Padding="5" >Сделать выделенную настройку текущей</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding AddSetting}" >Добавить настройку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding DelSetting}" >Удалить настройку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding ChangeDisplaySettingDefault}">Сделать выделенную настройку текущей</Button>
                                     </WrapPanel>
                                 </Grid>
                                 <StackPanel Grid.Column="1" Grid.Row="1" Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <StackPanel Orientation="Horizontal" Margin="5">
                                         <Label Margin="10,5">Настройка</Label>
-                                        <TextBox Width="200" Margin="5" Text="{Binding SelectedSetting.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Width="200" Margin="5" Text="{Binding SelectedDisplaySetting.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="5">
                                         <Label Margin="10,5">Имя</Label>
@@ -284,7 +427,7 @@
                                         <Label Margin="20,5,5,5">Ширина</Label>
                                         <xctk:ShortUpDown Margin="8" Width="75" Text="{Binding SelectedCollumnSetting.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
-                                    <Button Margin="5" Padding="5" Command="{Binding SaveChanges}" >Сохранить изменения</Button>
+                                    <Button Margin="5" Padding="5" Command="{Binding SaveChanges}" Click="Button_Click_2" >Сохранить изменения</Button>
                                 </StackPanel>
                             </Grid>
                         </TabItem>
@@ -310,8 +453,27 @@
                                 <Setter Property="Padding" Value="3" />
                             </Style>
                         </TabControl.Resources>
-                        <TabItem Header="Зарегистрированные"/>
-                        <TabItem Header="Актуализированные" />
+                        <TabItem Header="Зарегистрированные" DataContext="{StaticResource view_model }">
+
+                            <ListBox ItemsSource="{Binding VisitorCollection}"  Margin="20,20,20,5" Grid.Row="0" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center"  >
+                                            <TextBlock Margin="5" Text="{Binding Id}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem>
+                        <TabItem Header="Актуализированные" >
+                            <TabItem.DataContext>
+                                <vm:ViewModel />
+                            </TabItem.DataContext>
+                            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding VisitorCollection}">
+                            </DataGrid>
+
+                            
+                        </TabItem>
                         <TabItem Header="Неактуализированные" />
                         <TabItem Header="Созданные" />
                     </TabControl>

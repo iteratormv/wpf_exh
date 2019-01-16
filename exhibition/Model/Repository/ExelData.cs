@@ -158,21 +158,21 @@ namespace exhibition.Model.Repository
                 Visitor visitor = new Visitor();
     //            progress_Bar.Progress = row * 100 / excelWorksheetRow ;
 
-                if (data[row, 0] != null) visitor.Column1 = data[row, 0]; else visitor.Column1 = "none";
-                if (data[row, 1] != null) visitor.Column2 = data[row, 1]; else visitor.Column2 = "none";
-                if (data[row, 2] != null) visitor.Column3 = data[row, 2]; else visitor.Column3 = "none";
-                if (data[row, 3] != null) visitor.Column4 = data[row, 3]; else visitor.Column4 = "none";
-                if (data[row, 4] != null) visitor.Column5 = data[row, 4]; else visitor.Column5 = "none";
-                if (data[row, 5] != null) visitor.Column6 = data[row, 5]; else visitor.Column6 = "none";
-                if (data[row, 6] != null) visitor.Column7 = data[row, 6]; else visitor.Column7 = "none";
-                if (data[row, 7] != null) visitor.Column8 = data[row, 7]; else visitor.Column8 = "none";
-                if (data[row, 8] != null) visitor.Column9 = data[row, 8]; else visitor.Column9 = "none";
-                if (data[row, 9] != null) visitor.Column10 = data[row, 9]; else visitor.Column10 = "none";
-                if (data[row, 10] != null) visitor.Column11 = data[row, 10]; else visitor.Column11 = "none";
-                if (data[row, 11] != null) visitor.Column12 = data[row, 11]; else visitor.Column12 = "none";
-                if (data[row, 12] != null) visitor.Column13 = data[row, 12]; else visitor.Column13 = "none";
-                if (data[row, 13] != null) visitor.Column14 = data[row, 13]; else visitor.Column14 = "none";
-                if (data[row, 14] != null) visitor.Column15 = data[row, 14]; else visitor.Column15 = "none";
+                if (data[row, 0] != null) visitor.Collumn1 = data[row, 0]; else visitor.Collumn1 = "none";
+                if (data[row, 1] != null) visitor.Collumn2 = data[row, 1]; else visitor.Collumn2 = "none";
+                if (data[row, 2] != null) visitor.Collumn3 = data[row, 2]; else visitor.Collumn3 = "none";
+                if (data[row, 3] != null) visitor.Collumn4 = data[row, 3]; else visitor.Collumn4 = "none";
+                if (data[row, 4] != null) visitor.Collumn5 = data[row, 4]; else visitor.Collumn5 = "none";
+                if (data[row, 5] != null) visitor.Collumn6 = data[row, 5]; else visitor.Collumn6 = "none";
+                if (data[row, 6] != null) visitor.Collumn7 = data[row, 6]; else visitor.Collumn7 = "none";
+                if (data[row, 7] != null) visitor.Collumn8 = data[row, 7]; else visitor.Collumn8 = "none";
+                if (data[row, 8] != null) visitor.Collumn9 = data[row, 8]; else visitor.Collumn9 = "none";
+                if (data[row, 9] != null) visitor.Collumn10 = data[row, 9]; else visitor.Collumn10 = "none";
+                if (data[row, 10] != null) visitor.Collumn11 = data[row, 10]; else visitor.Collumn11 = "none";
+                if (data[row, 11] != null) visitor.Collumn12 = data[row, 11]; else visitor.Collumn12 = "none";
+                if (data[row, 12] != null) visitor.Collumn13 = data[row, 12]; else visitor.Collumn13 = "none";
+                if (data[row, 13] != null) visitor.Collumn14 = data[row, 13]; else visitor.Collumn14 = "none";
+                if (data[row, 14] != null) visitor.Collumn15 = data[row, 14]; else visitor.Collumn15 = "none";
 
                 visitorCollection.Add(visitor);
             }
@@ -192,21 +192,21 @@ namespace exhibition.Model.Repository
                 progress.Progress = row * 100 / excelWorksheetRow ;
                 progressChanged_(progress);
 
-                if (data[row, 0] != null) visitor.Column1 = data[row, 0]; else visitor.Column1 = "none";
-                if (data[row, 1] != null) visitor.Column2 = data[row, 1]; else visitor.Column2 = "none";
-                if (data[row, 2] != null) visitor.Column3 = data[row, 2]; else visitor.Column3 = "none";
-                if (data[row, 3] != null) visitor.Column4 = data[row, 3]; else visitor.Column4 = "none";
-                if (data[row, 4] != null) visitor.Column5 = data[row, 4]; else visitor.Column5 = "none";
-                if (data[row, 5] != null) visitor.Column6 = data[row, 5]; else visitor.Column6 = "none";
-                if (data[row, 6] != null) visitor.Column7 = data[row, 6]; else visitor.Column7 = "none";
-                if (data[row, 7] != null) visitor.Column8 = data[row, 7]; else visitor.Column8 = "none";
-                if (data[row, 8] != null) visitor.Column9 = data[row, 8]; else visitor.Column9 = "none";
-                if (data[row, 9] != null) visitor.Column10 = data[row, 9]; else visitor.Column10 = "none";
-                if (data[row, 10] != null) visitor.Column11 = data[row, 10]; else visitor.Column11 = "none";
-                if (data[row, 11] != null) visitor.Column12 = data[row, 11]; else visitor.Column12 = "none";
-                if (data[row, 12] != null) visitor.Column13 = data[row, 12]; else visitor.Column13 = "none";
-                if (data[row, 13] != null) visitor.Column14 = data[row, 13]; else visitor.Column14 = "none";
-                if (data[row, 14] != null) visitor.Column15 = data[row, 14]; else visitor.Column15 = "none";
+                if (data[row, 0] != null) visitor.Collumn1 = data[row, 0]; else visitor.Collumn1 = "none";
+                if (data[row, 1] != null) visitor.Collumn2 = data[row, 1]; else visitor.Collumn2 = "none";
+                if (data[row, 2] != null) visitor.Collumn3 = data[row, 2]; else visitor.Collumn3 = "none";
+                if (data[row, 3] != null) visitor.Collumn4 = data[row, 3]; else visitor.Collumn4 = "none";
+                if (data[row, 4] != null) visitor.Collumn5 = data[row, 4]; else visitor.Collumn5 = "none";
+                if (data[row, 5] != null) visitor.Collumn6 = data[row, 5]; else visitor.Collumn6 = "none";
+                if (data[row, 6] != null) visitor.Collumn7 = data[row, 6]; else visitor.Collumn7 = "none";
+                if (data[row, 7] != null) visitor.Collumn8 = data[row, 7]; else visitor.Collumn8 = "none";
+                if (data[row, 8] != null) visitor.Collumn9 = data[row, 8]; else visitor.Collumn9 = "none";
+                if (data[row, 9] != null) visitor.Collumn10 = data[row, 9]; else visitor.Collumn10 = "none";
+                if (data[row, 10] != null) visitor.Collumn11 = data[row, 10]; else visitor.Collumn11 = "none";
+                if (data[row, 11] != null) visitor.Collumn12 = data[row, 11]; else visitor.Collumn12 = "none";
+                if (data[row, 12] != null) visitor.Collumn13 = data[row, 12]; else visitor.Collumn13 = "none";
+                if (data[row, 13] != null) visitor.Collumn14 = data[row, 13]; else visitor.Collumn14 = "none";
+                if (data[row, 14] != null) visitor.Collumn15 = data[row, 14]; else visitor.Collumn15 = "none";
 
                 visitorCollection.Add(visitor);
             }
