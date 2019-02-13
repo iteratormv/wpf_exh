@@ -8,13 +8,13 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-
     <Window.Resources>
         <vm:ViewModel x:Key="view_model"/>
     </Window.Resources>
 
     <Grid>
         <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+
             <TabItem Header="Главная">
                 <Grid Name="ms" Background="#FFE5E5E5" >
                     <Grid.RowDefinitions>
@@ -27,7 +27,13 @@
                         <TextBox Width="100" TextAlignment="Center" Margin="5" Background="#FFE5E5E5" Foreground="Gray" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="Цвет бейджа"/>
                         <TextBox Width="100" TextAlignment="Center" Margin="5" Background="#FFE5E5E5" Foreground="Gray" TextWrapping="Wrap" VerticalContentAlignment="Center" Text="Статус оплаты"/>
                     </StackPanel>
-                    <DataGrid x:Name="workgrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False">
+                    <DataGrid x:Name="workgrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False" ItemsSource="{Binding v}">
+                        <DataGrid.Columns >
+                            
+                            <DataGridTextColumn Header="dfdfgh" 
+                                                Binding="{Binding }"
+                                                Width="100"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
@@ -139,7 +145,8 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Цвет бейджа" />
-                        <TabItem Header="База данных" />
+                        <TabItem Header="База данных" DataContext="{StaticResource view_model}">
+                        </TabItem>
                         <TabItem Header="Рабочий стол">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -220,7 +227,7 @@
                                         <RowDefinition Height="*"></RowDefinition>
                                         <RowDefinition Height="40"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <ListBox Grid.Row="0" ItemsSource="{Binding DsColumnSettingCollection}" SelectedItem="{Binding SelectedCollumnSetting}"  Margin="20,20,20,5" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <ListBox Grid.Row="0" ItemsSource="{Binding DsColumnSettingCollection}" SelectedItem="{Binding SelectedCollumnSetting, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="20,20,20,5" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -231,8 +238,8 @@
                                     </ListBox>
 
                                     <WrapPanel  Grid.Row="1" Orientation="Horizontal" Margin="20,0" HorizontalAlignment="Center" Width="auto">
-                                        <Button Margin="5" Padding="5" >Добавить колонку</Button>
-                                        <Button Margin="5" Padding="5" >Удалить колонку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding AddCollumn}" >Добавить колонку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding RemoveCollumn}" >Удалить колонку</Button>
                                     </WrapPanel>
                                 </Grid>
                                 <Grid  Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch">
@@ -240,7 +247,7 @@
                                         <RowDefinition Height="*" ></RowDefinition>
                                         <RowDefinition Height="40"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <ListBox ItemsSource="{Binding DisplaySettingCollection}" SelectedItem="{Binding SelectedSetting}" Margin="20,20,20,5" Grid.Row="0" >
+                                    <ListBox ItemsSource="{Binding DisplaySettingCollection}" SelectedItem="{Binding  SelectedDisplaySetting, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20,20,20,5" Grid.Row="0" >
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center"  >
@@ -260,15 +267,15 @@
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                     <WrapPanel Orientation="Horizontal" Margin="20,0" HorizontalAlignment="Center" Grid.Row="1" Width="auto">
-                                        <Button Margin="5" Padding="5" >Добавить настройку</Button>
-                                        <Button Margin="5" Padding="5" >Удалить настройку</Button>
-                                        <Button Margin="5" Padding="5" >Сделать выделенную настройку текущей</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding AddSetting}" >Добавить настройку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding DelSetting}" >Удалить настройку</Button>
+                                        <Button Margin="5" Padding="5" Command="{Binding ChangeDisplaySettingDefault}">Сделать выделенную настройку текущей</Button>
                                     </WrapPanel>
                                 </Grid>
                                 <StackPanel Grid.Column="1" Grid.Row="1" Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <StackPanel Orientation="Horizontal" Margin="5">
                                         <Label Margin="10,5">Настройка</Label>
-                                        <TextBox Width="200" Margin="5" Text="{Binding SelectedSetting.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Width="200" Margin="5" Text="{Binding SelectedDisplaySetting.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="5">
                                         <Label Margin="10,5">Имя</Label>
@@ -310,8 +317,28 @@
                                 <Setter Property="Padding" Value="3" />
                             </Style>
                         </TabControl.Resources>
-                        <TabItem Header="Зарегистрированные"/>
-                        <TabItem Header="Актуализированные" />
+                        <TabItem Header="Зарегистрированные" DataContext="{StaticResource view_model }">
+
+                            <ListBox ItemsSource="{Binding  VisitorCollection}" SelectedItem="{Binding SelectedCollumnSetting, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Margin="20,20,20,5" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding  }" Width="200" Margin="5" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                        </TabItem>
+                        <TabItem Header="Актуализированные" >
+                            <TabItem.DataContext>
+                                <vm:ViewModel />
+                            </TabItem.DataContext>
+                            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding VisitorCollection}">
+                            </DataGrid>
+
+                            
+                        </TabItem>
                         <TabItem Header="Неактуализированные" />
                         <TabItem Header="Созданные" />
                     </TabControl>

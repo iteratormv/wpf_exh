@@ -21,7 +21,7 @@ namespace exhibition.ViewModel
         ObservableCollection<DisplaySetting> displaySettingCollection;
         ObservableCollection<DSCollumnSetting> dsColumnSettingCollection;
 
-        DisplaySetting selectedSetting;
+        DisplaySetting selectedDisplaySetting;
         DSCollumnSetting selectedCollumnSetting;
         Progress_Bar progressBar;
 
@@ -41,10 +41,10 @@ namespace exhibition.ViewModel
             set { dsColumnSettingCollection = value; OnPropertyChanged(nameof(DsColumnSettingCollection)); }
         }
 
-        public DisplaySetting SelectedSetting
+        public DisplaySetting SelectedDisplaySetting
         {
-            get { return selectedSetting; }
-            set { selectedSetting = value; OnPropertyChanged(nameof(SelectedSetting)); }
+            get { return selectedDisplaySetting; }
+            set { selectedDisplaySetting = value; OnPropertyChanged(nameof(SelectedDisplaySetting)); }
         }
         public DSCollumnSetting SelectedCollumnSetting
         {
@@ -68,14 +68,14 @@ namespace exhibition.ViewModel
         RelayCommand delSetting;
         public RelayCommand DelSetting { get { return delSetting; } }
 
-        RelayCommand selectedSettingChanged;
-        public RelayCommand SelectedSettingChanged { get { return selectedSettingChanged; } }
-
         RelayCommand saveChanges;
         public RelayCommand SaveChanges { get { return saveChanges; } }
 
         RelayCommand addDataFromFileToDatabase;
         public RelayCommand AddDataFromFileToDatabase { get { return addDataFromFileToDatabase; } }
+
+        RelayCommand changeDisplaySettingDefault;
+        public RelayCommand ChangeDisplaySettingDefault { get { return changeDisplaySettingDefault; } }
 
         public ViewModel()
         {
@@ -83,9 +83,11 @@ namespace exhibition.ViewModel
             cFExRepository.progressChanged += ProgressChanged;
             visitorCollection = new ObservableCollection<Visitor>();
             displaySettingCollection = cFExRepository.DisplaySettingCollection;
-            dsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
-            selectedSetting = displaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
-            selectedCollumnSetting = dsColumnSettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+            selectedDisplaySetting = displaySettingCollection.Where(s => s.IsSelected == true).FirstOrDefault();
+            var _dsColumnSettingCollection = cFExRepository.DsColumnSettingCollection.Where(s=>s.DisplaySettingId == selectedDisplaySetting.Id);
+            dsColumnSettingCollection = new ObservableCollection<DSCollumnSetting>();
+            foreach(var c in _dsColumnSettingCollection) { dsColumnSettingCollection.Add(c); }
+            SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
 
             addDataFromFileToDatabase = new RelayCommand(c =>
             {
@@ -104,6 +106,55 @@ namespace exhibition.ViewModel
                     });
                 }
             });
+            addSetting = new RelayCommand(c =>
+            {
+                cFExRepository.addDisplaySetting();
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            delSetting = new RelayCommand(c =>
+            {
+                cFExRepository.delDisplaySetting(selectedDisplaySetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            changeDisplaySettingDefault = new RelayCommand(c =>
+            {
+                cFExRepository.changeDisplaySettingDefault(SelectedDisplaySetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            addCollumn = new RelayCommand(c =>
+            {
+                cFExRepository.addDSCollumnSetting();
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            saveChanges = new RelayCommand(c =>
+            {
+                cFExRepository.saveChanges(selectedDisplaySetting, selectedCollumnSetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+            removeCollumn = new RelayCommand(c =>
+            {
+                cFExRepository.delDSCollumnSetting(selectedCollumnSetting);
+                DisplaySettingCollection = cFExRepository.DisplaySettingCollection;
+                DsColumnSettingCollection = cFExRepository.DsColumnSettingCollection;
+                SelectedCollumnSetting = cFExRepository.SelectedDSCollumnSetting;
+                SelectedDisplaySetting = cFExRepository.SelectedDisplaySetting;
+            });
+
         }
 
         private void ProgressChanged(Progress_Bar progress)

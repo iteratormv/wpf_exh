@@ -26,11 +26,8 @@ namespace exhibition.ViewModel.infrostructure
 
         public bool CanExecute(object parameter)
         {
-
-            //    return true;
             return canExecute == null ? true : canExecute(parameter);
         }
-
 
         public void Execute(object parameter)
         {
