@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ed8d6a30-9a3a-4d1f-9259-8204f9964f6f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://192.168.0.27:3121/Visitor/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b314fad0-caac-4884-bfe4-3df2cceee2cf" SourceId="1" SourceUrl="net.tcp://192.168.0.27:3121/Visitor/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="8c891e7b-b9f4-4835-b637-92dc296eca12" SourceId="1" SourceUrl="net.tcp://192.168.0.27:3121/Visitor/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c2ec7be4-57c0-4468-89dc-2d0ce7e41a31" SourceId="1" SourceUrl="net.tcp://192.168.0.27:3121/Visitor/mex" />
+    <MetadataFile FileName="iterator.xsd" MetadataType="Schema" ID="fdfb05c1-35ed-4789-9c4e-7e480799adad" SourceId="1" SourceUrl="net.tcp://192.168.0.27:3121/Visitor/mex" />
+    <MetadataFile FileName="EX.Model.Repository.xsd" MetadataType="Schema" ID="360b785c-b147-4361-9df7-67f0c365368c" SourceId="1" SourceUrl="net.tcp://192.168.0.27:3121/Visitor/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

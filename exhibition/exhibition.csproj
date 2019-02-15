@@ -50,6 +50,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -94,9 +95,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\ExContext.cs" />
+    <Compile Include="Model\contextcontext.cs" />
+    <Compile Include="Model\DisplaySetting.cs" />
+    <Compile Include="Model\DSCollumnSetting.cs" />
     <Compile Include="Model\Repository\CFExRepository.cs" />
     <Compile Include="Model\Repository\ExelData.cs" />
+    <Compile Include="Model\Visitor.cs" />
     <Compile Include="ViewModel\infrostructure\BindingProxy.cs" />
     <Compile Include="ViewModel\infrostructure\BoolToVisibilityConverter.cs" />
     <Compile Include="ViewModel\infrostructure\Progress_Bar.cs" />
@@ -108,9 +112,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DisplaySetting.cs" />
-    <Compile Include="Model\DSCollumnSetting.cs" />
-    <Compile Include="Model\Visitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,8 +136,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EX.Model\EX.Model.csproj">
+      <Project>{CE81224C-3F48-4003-9C03-DE4FA4162D3E}</Project>
+      <Name>EX.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EX.Service\EX.Service.csproj">
+      <Project>{51afe126-c821-4686-8327-00206114acf3}</Project>
+      <Name>EX.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\cfmo\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

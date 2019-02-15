@@ -51,7 +51,6 @@
                             <vmi:BindingProxy x:Key="ColumnChecked15" Data="{Binding ColumnChecked[14], UpdateSourceTrigger=PropertyChanged}" />
                             <vmi:BindingProxy x:Key="ColumnChecked16" Data="{Binding ColumnChecked[15], UpdateSourceTrigger=PropertyChanged}" />
 
-
                             <vmi:BindingProxy x:Key="Header1" Data="{Binding Alias[0], UpdateSourceTrigger=PropertyChanged}" />
                             <vmi:BindingProxy x:Key="Header2" Data="{Binding Alias[1], UpdateSourceTrigger=PropertyChanged}" />
                             <vmi:BindingProxy x:Key="Header3" Data="{Binding Alias[2], UpdateSourceTrigger=PropertyChanged}" />
@@ -92,7 +91,7 @@
                                 Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header1}}" 
                                 Binding="{Binding Id}" 
                                 Width="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Width1}}" 
-                                Visibility="{Binding Data, Converter={StaticResource boolToVisibilityConverter}}"/>
+                                Visibility="{Binding Data, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToVisibilityConverter}, Source={StaticResource ColumnChecked1}}"/>
                             <DataGridTextColumn 
                                 Header="{Binding Data, UpdateSourceTrigger=PropertyChanged, Source={StaticResource Header2}}" 
                                 Binding="{Binding Collumn1}" 
@@ -480,7 +479,58 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Сеть">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <TabControl TabStripPlacement="Left" Grid.ColumnSpan="2">
+                        <TabControl.Resources>
+                            <Style TargetType="{x:Type TabItem}">
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{TemplateBinding Content}">
+                                                <ContentPresenter.LayoutTransform>
+                                                    <RotateTransform Angle="0" />
+                                                </ContentPresenter.LayoutTransform>
+                                            </ContentPresenter>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="3" />
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem Header="Режим работы" DataContext="{StaticResource view_model}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="300*"/>
+                                    <ColumnDefinition Width="450*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Margin="20" Grid.Column="0">
+                                    <RadioButton Margin="5" IsChecked="True" Content="Локальная база данных" Name="LocalDB" Command="{Binding ChangeDataMode}" CommandParameter="{Binding ElementName=LocalDB, Path=Content}"/>
+                                    <RadioButton Margin="5" Content="Сервер службы баз данных" Name="ServerDB" Command="{Binding ChangeDataMode}" CommandParameter="{Binding ElementName=ServerDB, Path=Content}"/>
+                                    <RadioButton Margin="5" Content="Клиент службы баз данных" Name="ClientDB" Command="{Binding ChangeDataMode}" CommandParameter="{Binding ElementName=ClientDB, Path=Content}"/>
+                                </StackPanel>
+                                <Grid Grid.Column="1">
+                                    <StackPanel>
+                                        <TextBlock Margin="20" Height="150" Background="AliceBlue" Text="{Binding ServerStatus, UpdateSourceTrigger=PropertyChanged}"  ></TextBlock>
+                                        <StackPanel Orientation="Vertical" Margin="20,0,20,0">
+                                            <Button Margin="5" Command="{Binding StartServer}">Запустить сервер</Button>
+                                            <Button Margin="5" Command="{Binding StopServer}">Остановить сервер</Button>
+                                            <Button Margin="5" Command="{Binding ClientGetAll}">getAll</Button>
+                                            <Button Margin="5" Command="{Binding Startvmhost}">Start vmhost</Button>
+                                            <Button Margin="5" Command="{Binding Stopvmhost}">Stop vmhost</Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+
+
+
+
+                            </Grid>
+                            
+                            
+                        </TabItem>
+                    </TabControl>
+                </Grid>
             </TabItem>
 
             <TabItem Header="Администрирование">

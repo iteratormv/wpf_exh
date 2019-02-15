@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EX.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,18 @@ namespace exhibition
     /// </summary>
     public partial class MainWindow : Window
     {
+        VisitorExecutor visitorExecutor;
+
         public MainWindow()
         {
             InitializeComponent();
+//            visitorExecutor = new VisitorExecutor("192.168.0.29");
+ //           visitorExecutor.statusChanged += StatusChanged;
+        }
+
+        private void StatusChanged(string obj)
+        {
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -40,5 +50,10 @@ namespace exhibition
             Application.Current.Shutdown();
         }
 
+        //private void Button_Click_1(object sender, RoutedEventArgs e)
+        //{
+        //    DataMode = visitorExecutor.status;
+        //    Task.Factory.StartNew(visitorExecutor.Start);
+        //}
     }
 }

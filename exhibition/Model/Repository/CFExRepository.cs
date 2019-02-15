@@ -13,7 +13,7 @@ namespace exhibition.Model.Repository
 {
     public class CFExRepository : INotifyPropertyChanged
     {
-        ExContext context;
+        contextcontext context;
         Progress_Bar progress;
 
         DisplaySetting selectedDisplaySetting;
@@ -22,10 +22,22 @@ namespace exhibition.Model.Repository
         ObservableCollection<DisplaySetting> displaySettingCollection;
         ObservableCollection<DSCollumnSetting> dsColumnSettingCollection;
 
-        public DisplaySetting SelectedDisplaySetting { get { return selectedDisplaySetting; }set {
-                selectedDisplaySetting = value; OnPropertyChanged(nameof(SelectedDisplaySetting)); } }
-        public DSCollumnSetting SelectedDSCollumnSetting { get { return selectedDSCollumnSetting; } set {
-                selectedDSCollumnSetting = value; OnPropertyChanged(nameof(SelectedDSCollumnSetting)); } }
+        public DisplaySetting SelectedDisplaySetting
+        {
+            get { return selectedDisplaySetting; }
+            set
+            {
+                selectedDisplaySetting = value; OnPropertyChanged(nameof(SelectedDisplaySetting));
+            }
+        }
+        public DSCollumnSetting SelectedDSCollumnSetting
+        {
+            get { return selectedDSCollumnSetting; }
+            set
+            {
+                selectedDSCollumnSetting = value; OnPropertyChanged(nameof(SelectedDSCollumnSetting));
+            }
+        }
         public ObservableCollection<Visitor> VisitorCollection
         {
             get { return visitorCollection; }
@@ -48,7 +60,7 @@ namespace exhibition.Model.Repository
             displaySettingCollection = new ObservableCollection<DisplaySetting>();
             dsColumnSettingCollection = new ObservableCollection<DSCollumnSetting>();
             visitorCollection = new ObservableCollection<Visitor>();
-            context = new ExContext();
+            context = new contextcontext();
             var d = context.DisplaySettings.ToList();
             if (d.Count() == 0)
             {
@@ -76,19 +88,23 @@ namespace exhibition.Model.Repository
             else
             {
                 //find settings in database
-                var _displaySettingCollection = context.DisplaySettings;
+         //       var _displaySettingCollection = context.DisplaySettings;
                 //add setting to repository
-                foreach (var c in _displaySettingCollection) displaySettingCollection.Add(c);
+         //       foreach (var c in _displaySettingCollection) displaySettingCollection.Add(c);
                 //extract collumns from database which contain parameter Id and add its into the perository
                 selectedDisplaySetting = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
                 var _dsCollumnSettings = context.DSCollumnSettings.Where(s=>s.DisplaySettingId == selectedDisplaySetting.Id);
                 foreach (var c in _dsCollumnSettings) dsColumnSettingCollection.Add(c);
             }
-            var _visitorCollection = context.Visitors;
-            foreach (var c in _visitorCollection) visitorCollection.Add(c);
             selectedDisplaySetting = context.DisplaySettings.Where(s => s.IsSelected == true).FirstOrDefault();
             selectedDSCollumnSetting = context.DSCollumnSettings.Where(s => s.IsSelected == true).FirstOrDefault();
-
+            var _visitorcollection = context.Visitors;
+            foreach (var c in _visitorcollection) visitorCollection.Add(c);
+            var _displaySettingCollection = context.DisplaySettings;
+            foreach (var c in _displaySettingCollection) displaySettingCollection.Add(c);
+           var _dsCollumnSettingCollection = context.DSCollumnSettings.Where(s => s.DisplaySettingId == selectedDisplaySetting.Id);
+            dsColumnSettingCollection.Clear();
+            foreach (var c in _dsCollumnSettingCollection) dsColumnSettingCollection.Add(c);
         }
 
         public void addToRepositoryFromFile(string fileName)
@@ -105,7 +121,7 @@ namespace exhibition.Model.Repository
             ExelData exelData = new ExelData(fileName, progressChanged);
             progress.Status = "Delete old visitors";
             progress.Progress = 0;
-            using (var ctx = new ExContext())
+            using (var ctx = new contextcontext())
             {
                 int count = 1;
                 var collection = ctx.Visitors.ToList();

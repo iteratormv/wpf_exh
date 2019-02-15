@@ -11,38 +11,38 @@ namespace exhibition.Model
     public class Visitor : INotifyPropertyChanged
     {
         int id;
-        string collumn1;
-        string collumn2;
-        string collumn3;
-        string collumn4;
-        string collumn5;
-        string collumn6;
-        string collumn7;
-        string collumn8;
-        string collumn9;
-        string collumn10;
-        string collumn11;
-        string collumn12;
-        string collumn13;
-        string collumn14;
-        string collumn15;
+        string column1;
+        string column2;
+        string column3;
+        string column4;
+        string column5;
+        string column6;
+        string column7;
+        string column8;
+        string column9;
+        string column10;
+        string column11;
+        string column12;
+        string column13;
+        string column14;
+        string column15;
 
         public int Id { get { return id; } set { id = value; OnPropertyChanged(nameof(Id)); } }
-        public string Collumn1 { get { return collumn1; } set { collumn1 = value; OnPropertyChanged(nameof(Collumn1)); } }
-        public string Collumn2 { get { return collumn2; } set { collumn2 = value; OnPropertyChanged(nameof(Collumn2)); } }
-        public string Collumn3 { get { return collumn3; } set { collumn3 = value; OnPropertyChanged(nameof(Collumn3)); } }
-        public string Collumn4 { get { return collumn4; } set { collumn4 = value; OnPropertyChanged(nameof(Collumn4)); } }
-        public string Collumn5 { get { return collumn5; } set { collumn5 = value; OnPropertyChanged(nameof(Collumn5)); } }
-        public string Collumn6 { get { return collumn6; } set { collumn6 = value; OnPropertyChanged(nameof(Collumn6)); } }
-        public string Collumn7 { get { return collumn7; } set { collumn7 = value; OnPropertyChanged(nameof(Collumn7)); } }
-        public string Collumn8 { get { return collumn8; } set { collumn8 = value; OnPropertyChanged(nameof(Collumn8)); } }
-        public string Collumn9 { get { return collumn9; } set { collumn9 = value; OnPropertyChanged(nameof(Collumn9)); } }
-        public string Collumn10 { get { return collumn10; } set { collumn10 = value; OnPropertyChanged(nameof(Collumn10)); } }
-        public string Collumn11 { get { return collumn11; } set { collumn11 = value; OnPropertyChanged(nameof(Collumn11)); } }
-        public string Collumn12 { get { return collumn12; } set { collumn12 = value; OnPropertyChanged(nameof(Collumn12)); } }
-        public string Collumn13 { get { return collumn13; } set { collumn13 = value; OnPropertyChanged(nameof(Collumn13)); } }
-        public string Collumn14 { get { return collumn14; } set { collumn14 = value; OnPropertyChanged(nameof(Collumn14)); } }
-        public string Collumn15 { get { return collumn15; } set { collumn15 = value; OnPropertyChanged(nameof(Collumn15)); } }
+        public string Column1 { get { return column1; } set { column1 = value; OnPropertyChanged(nameof(Column1)); } }
+        public string Column2 { get { return column2; } set { column2 = value; OnPropertyChanged(nameof(Column2)); } }
+        public string Column3 { get { return column3; } set { column3 = value; OnPropertyChanged(nameof(Column3)); } }
+        public string Column4 { get { return column4; } set { column4 = value; OnPropertyChanged(nameof(Column4)); } }
+        public string Column5 { get { return column5; } set { column5 = value; OnPropertyChanged(nameof(Column5)); } }
+        public string Column6 { get { return column6; } set { column6 = value; OnPropertyChanged(nameof(Column6)); } }
+        public string Column7 { get { return column7; } set { column7 = value; OnPropertyChanged(nameof(Column7)); } }
+        public string Column8 { get { return column8; } set { column8 = value; OnPropertyChanged(nameof(Column8)); } }
+        public string Column9 { get { return column9; } set { column9 = value; OnPropertyChanged(nameof(Column9)); } }
+        public string Column10 { get { return column10; } set { column10 = value; OnPropertyChanged(nameof(Column10)); } }
+        public string Column11 { get { return column11; } set { column11 = value; OnPropertyChanged(nameof(Column11)); } }
+        public string Column12 { get { return column12; } set { column12 = value; OnPropertyChanged(nameof(Column12)); } }
+        public string Column13 { get { return column13; } set { column13 = value; OnPropertyChanged(nameof(Column13)); } }
+        public string Column14 { get { return column14; } set { column14 = value; OnPropertyChanged(nameof(Column14)); } }
+        public string Column15 { get { return column15; } set { column15 = value; OnPropertyChanged(nameof(Column15)); } }
 
         private void OnPropertyChanged(string propertyName)
         {

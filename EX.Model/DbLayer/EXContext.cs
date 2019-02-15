@@ -1,19 +1,19 @@
-﻿namespace exhibition.Model
+﻿namespace EX.Model.DbLayer
 {
     using System;
     using System.Data.Entity;
     using System.Linq;
 
-    public class ExContext : DbContext
+    public class EXContext : DbContext
     {
-        // Контекст настроен для использования строки подключения "ExContext" из файла конфигурации  
+        // Контекст настроен для использования строки подключения "EXContext" из файла конфигурации  
         // приложения (App.config или Web.config). По умолчанию эта строка подключения указывает на базу данных 
-        // "exhibition.Model.ExContext" в экземпляре LocalDb. 
+        // "EX.Model.DbLayer.EXContext" в экземпляре LocalDb. 
         // 
-        // Если требуется выбрать другую базу данных или поставщик базы данных, измените строку подключения "ExContext" 
+        // Если требуется выбрать другую базу данных или поставщик базы данных, измените строку подключения "EXContext" 
         // в файле конфигурации приложения.
-        public ExContext()
-            : base("name=ExContext")
+        public EXContext()
+            : base("name=EXContext.xml")
         {
         }
 
@@ -22,8 +22,6 @@
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual DbSet<Visitor> Visitors { get; set; }
-        public virtual DbSet<DisplaySetting> DisplaySettings { get; set; }
-        public virtual DbSet<DSCollumnSetting> DSCollumnSettings { get; set; }
     }
 
     //public class MyEntity

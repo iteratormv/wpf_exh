@@ -18,6 +18,8 @@ namespace exhibition.ViewModel.infrostructure
             canExecute = f;
         }
 
+
+
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
